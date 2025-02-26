@@ -7,110 +7,125 @@
     <meta name="google-adsense-account" content="ca-pub-7655863522500671">
     <meta name="msvalidate.01" content="E843EDAE1ADEA603E36344A5C6C67EB3" />
     <link rel="icon" href="icono.png">
-    <title>Calculadora Virtual</title>
-    <!-- Código de Google AdSense -->
-    <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
- <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #282c34;
-            font-family: Arial, sans-serif;
-        }
-        .calculator {
-            background: #3b3f45;
-            padding: 35px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        #display {
-            width: 100%;
-            height: 50px;
-            font-size: 1.5em;
-            text-align: right;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: none;
-            background: #1c1f25;
-            color: white;
-            border-radius: 5px;
-        }
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        button {
-            padding: 15px;
-            font-size: 1.2em;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            background: #50555d;
-            color: white;
-        }
-        button:hover {
-            background: #646a73;
-        }
-        .equal {
-            grid-column: span 2;
-            background: #ff9500;
-        }
-        .equal:hover {
-            background: #e08900;
-        }
-    </style>
-</head>
-<body>
-    <div class="calculator">
-        <input type="text" id="display" disabled>
-        <div class="buttons">
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="appendValue('/')">/</button>
-            <button onclick="appendValue('*')">*</button>
-            <button onclick="appendValue('-')">-</button>
-            <button onclick="appendValue('7')">7</button>
-            <button onclick="appendValue('8')">8</button>
-            <button onclick="appendValue('9')">9</button>
-            <button onclick="appendValue('+')">+</button>
-            <button onclick="appendValue('4')">4</button>
-            <button onclick="appendValue('5')">5</button>
-            <button onclick="appendValue('6')">6</button>
-            <button onclick="appendValue('(')">(</button>
-            <button onclick="appendValue(')')">)</button>
-            <button onclick="appendValue('1')">1</button>
-            <button onclick="appendValue('2')">2</button>
-            <button onclick="appendValue('3')">3</button>
-            <button onclick="appendValue('0')">0</button>
-            <button onclick="appendValue('.')">.</button>
-            <button onclick="appendValue('Math.sin(')">sin</button>
-            <button onclick="appendValue('Math.cos(')">cos</button>
-            <button onclick="appendValue('Math.tan(')">tan</button>
-            <button onclick="appendValue('Math.sqrt(')">√</button>
-            <button onclick="appendValue('Math.pow(')">^</button>
-            <button onclick="calculateResult()" class="equal">=</button>
-        </div>
+<body class="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+  <div class="w-full max-w-md bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
+    <!-- Encabezado -->
+    <div class="p-4 border-b border-gray-700">
+      <h1 class="text-2xl font-bold text-white">Calculadora Científica</h1>
     </div>
-    <script>
-        function appendValue(value) {
-            document.getElementById("display").value += value;
+
+    <!-- Pantalla -->
+    <div class="p-4">
+      <div id="pantalla" class="bg-gray-700 p-3 rounded-lg text-right text-3xl font-mono text-white">0</div>
+    </div>
+
+    <!-- Botones -->
+    <div class="grid grid-cols-4 gap-2 p-4">
+      <!-- Primera Fila -->
+      <button onclick="manejarLimpiar()" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-lg">C</button>
+      <button onclick="manejarRetroceso()" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">←</button>
+      <button onclick="manejarFuncion('Math.sqrt')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">√</button>
+      <button onclick="manejarOperador('^')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">^</button>
+
+      <!-- Segunda Fila -->
+      <button onclick="manejarFuncion('Math.sin')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg">sen</button>
+      <button onclick="manejarFuncion('Math.cos')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg">cos</button>
+      <button onclick="manejarFuncion('Math.tan')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg">tan</button>
+      <button onclick="manejarOperador('/')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">/</button>
+
+      <!-- Tercera Fila -->
+      <button onclick="manejarDigito('7')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">7</button>
+      <button onclick="manejarDigito('8')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">8</button>
+      <button onclick="manejarDigito('9')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">9</button>
+      <button onclick="manejarOperador('*')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">X</button>
+
+      <!-- Cuarta Fila -->
+      <button onclick="manejarDigito('4')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">4</button>
+      <button onclick="manejarDigito('5')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">5</button>
+      <button onclick="manejarDigito('6')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">6</button>
+      <button onclick="manejarOperador('-')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">-</button>
+
+      <!-- Quinta Fila -->
+      <button onclick="manejarDigito('1')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">1</button>
+      <button onclick="manejarDigito('2')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">2</button>
+      <button onclick="manejarDigito('3')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">3</button>
+      <button onclick="manejarOperador('+')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">+</button>
+
+      <!-- Sexta Fila -->
+      <button onclick="manejarDigito('0')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg col-span-2">0</button>
+      <button onclick="manejarDigito('.')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">.</button>
+      <button onclick="manejarDigito('(')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">(</button>
+      <button onclick="manejarDigito(')')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">)</button>
+
+      <!-- Botón Igual -->
+      <button onclick="manejarIgual()" class="bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg col-span-4 text-lg font-bold">=</button>
+    </div>
+  </div>
+
+  <script>
+let pantalla = document.getElementById("pantalla");
+let expresion = "";
+
+// Función para actualizar la pantalla
+function actualizarPantalla() {
+    pantalla.textContent = expresion || "0";
+}
+
+// Función para manejar dígitos y operadores
+function manejarDigito(valor) {
+    expresion += valor;
+    actualizarPantalla();
+}
+
+function manejarOperador(operador) {
+    if (expresion !== "") {
+        expresion += operador;
+        actualizarPantalla();
+    }
+}
+
+// Función para operaciones matemáticas
+function manejarFuncion(funcion) {
+    if (expresion !== "") {
+        try {
+            expresion = String(eval(`${funcion}(${expresion})`));
+            actualizarPantalla();
+        } catch (error) {
+            pantalla.textContent = "Error";
+            expresion = "";
         }
-        function clearDisplay() {
-            document.getElementById("display").value = "";
-        }
-        function calculateResult() {
-            try {
-                let expression = document.getElementById("display").value;
-                expression = expression.replace(/Math\.pow\((\d+),(\d+)\)/g, "($1**$2)");
-                document.getElementById("display").value = eval(expression);
-            } catch {
-                document.getElementById("display").value = "Error";
-            }
-        }
-    </script>
+    }
+}
+
+// Botón de igual
+function manejarIgual() {
+    try {
+        // Reemplazo de operadores para potenciar y funciones avanzadas
+        let expresionEvaluable = expresion.replace(/\^/g, "**");
+        expresion = String(eval(expresionEvaluable));
+        actualizarPantalla();
+    } catch (error) {
+        pantalla.textContent = "Error";
+        expresion = "";
+    }
+}
+
+// Funciones auxiliares
+function manejarLimpiar() {
+    expresion = "";
+    actualizarPantalla();
+}
+
+function manejarRetroceso() {
+    expresion = expresion.slice(0, -1);
+    actualizarPantalla();
+}
+
+// Inicia la pantalla en 0
+actualizarPantalla();
+
+  </script>
+</body>
+</html>
