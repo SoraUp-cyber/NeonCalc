@@ -2,130 +2,271 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Calculadora científica avanzada con funciones matemáticas completas">
+    <meta name="keywords" content="calculadora, científica, matemáticas, herramientas, calculadora online">
+    
+    <!-- Verificaciones -->
     <meta name="google-site-verification" content="qVo4oSIfSWohpOT9e5Z2V-sgr3du0lEfSo_rV51s-48" />
-    <meta name="google-adsense-account" content="ca-pub-7655863522500671">
     <meta name="msvalidate.01" content="E843EDAE1ADEA603E36344A5C6C67EB3" />
+    
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-7655863522500671">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7655863522500671" crossorigin="anonymous"></script>
+    
+    <title>Calculadora Científica Avanzada</title>
     <link rel="icon" href="icono.png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-  <div class="w-full max-w-md bg-gray-800 border border-gray-700 rounded-lg shadow-lg">
-    <!-- Encabezado -->
-    <div class="p-4 border-b border-gray-700">
-      <h1 class="text-2xl font-bold text-white">Calculadora Científica</h1>
-    </div>
-
-    <!-- Pantalla -->
-    <div class="p-4">
-      <div id="pantalla" class="bg-gray-700 p-3 rounded-lg text-right text-3xl font-mono text-white">0</div>
-    </div>
-
-    <!-- Botones -->
-    <div class="grid grid-cols-4 gap-2 p-4">
-      <!-- Primera Fila -->
-      <button onclick="manejarLimpiar()" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-lg">C</button>
-      <button onclick="manejarRetroceso()" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">←</button>
-      <button onclick="manejarFuncion('Math.sqrt')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">√</button>
-      <button onclick="manejarOperador('^')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">^</button>
-
-      <!-- Segunda Fila -->
-      <button onclick="manejarFuncion('Math.sin')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg">sen</button>
-      <button onclick="manejarFuncion('Math.cos')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg">cos</button>
-      <button onclick="manejarFuncion('Math.tan')" class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg">tan</button>
-      <button onclick="manejarOperador('/')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">/</button>
-
-      <!-- Tercera Fila -->
-      <button onclick="manejarDigito('7')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">7</button>
-      <button onclick="manejarDigito('8')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">8</button>
-      <button onclick="manejarDigito('9')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">9</button>
-      <button onclick="manejarOperador('*')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">X</button>
-
-      <!-- Cuarta Fila -->
-      <button onclick="manejarDigito('4')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">4</button>
-      <button onclick="manejarDigito('5')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">5</button>
-      <button onclick="manejarDigito('6')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">6</button>
-      <button onclick="manejarOperador('-')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">-</button>
-
-      <!-- Quinta Fila -->
-      <button onclick="manejarDigito('1')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">1</button>
-      <button onclick="manejarDigito('2')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">2</button>
-      <button onclick="manejarDigito('3')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">3</button>
-      <button onclick="manejarOperador('+')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">+</button>
-
-      <!-- Sexta Fila -->
-      <button onclick="manejarDigito('0')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg col-span-2">0</button>
-      <button onclick="manejarDigito('.')" class="bg-gray-600 hover:bg-gray-500 text-white p-3 rounded-lg">.</button>
-      <button onclick="manejarDigito('(')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">(</button>
-      <button onclick="manejarDigito(')')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">)</button>
-
-      <!-- Botón Igual -->
-      <button onclick="manejarIgual()" class="bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg col-span-4 text-lg font-bold">=</button>
-    </div>
-  </div>
-
-  <script>
-let pantalla = document.getElementById("pantalla");
-let expresion = "";
-
-// Función para actualizar la pantalla
-function actualizarPantalla() {
-    pantalla.textContent = expresion || "0";
-}
-
-// Función para manejar dígitos y operadores
-function manejarDigito(valor) {
-    expresion += valor;
-    actualizarPantalla();
-}
-
-function manejarOperador(operador) {
-    if (expresion !== "") {
-        expresion += operador;
-        actualizarPantalla();
-    }
-}
-
-// Función para operaciones matemáticas
-function manejarFuncion(funcion) {
-    if (expresion !== "") {
-        try {
-            expresion = String(eval(`${funcion}(${expresion})`));
-            actualizarPantalla();
-        } catch (error) {
-            pantalla.textContent = "Error";
-            expresion = "";
+    
+    <style>
+        /* Estilos personalizados para mejor responsive */
+        .btn-calculadora {
+            transition: all 0.2s ease;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
         }
-    }
-}
+        .btn-wide {
+            aspect-ratio: unset;
+        }
+        @media (max-width: 640px) {
+            .btn-calculadora {
+                padding: 0.75rem;
+                font-size: 1rem;
+                min-height: 45px;
+            }
+        }
+        
+        /* Animación para la pantalla */
+        #pantalla {
+            transition: all 0.3s ease;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        /* Estilos para anuncios */
+        .ad-container {
+            width: 100%;
+            max-width: 728px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 flex flex-col items-center justify-start py-8 px-4">
+    <!-- Banner superior AdSense -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7655863522500671"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 
-// Botón de igual
-function manejarIgual() {
-    try {
-        // Reemplazo de operadores para potenciar y funciones avanzadas
-        let expresionEvaluable = expresion.replace(/\^/g, "**");
-        expresion = String(eval(expresionEvaluable));
+    <!-- Contenedor principal de la calculadora -->
+    <div class="w-full max-w-md bg-gray-800 border border-gray-700 rounded-lg shadow-lg mb-4">
+        <!-- Encabezado -->
+        <div class="p-4 border-b border-gray-700">
+            <h1 class="text-2xl font-bold text-white text-center">Calculadora Científica</h1>
+        </div>
+
+        <!-- Pantalla -->
+        <div class="p-4">
+            <div id="pantalla" class="bg-gray-700 p-3 rounded-lg text-right text-3xl font-mono text-white min-h-[60px] flex items-center justify-end">0</div>
+        </div>
+
+        <!-- Botones -->
+        <div class="grid grid-cols-4 gap-2 p-4">
+            <!-- Primera Fila -->
+            <button onclick="manejarLimpiar()" class="btn-calculadora bg-red-600 hover:bg-red-700 text-white rounded-lg">C</button>
+            <button onclick="manejarRetroceso()" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">←</button>
+            <button onclick="manejarFuncion('Math.sqrt')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">√</button>
+            <button onclick="manejarOperador('^')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">^</button>
+
+            <!-- Segunda Fila -->
+            <button onclick="manejarFuncion('Math.sin')" class="btn-calculadora bg-purple-600 hover:bg-purple-700 text-white rounded-lg">sen</button>
+            <button onclick="manejarFuncion('Math.cos')" class="btn-calculadora bg-purple-600 hover:bg-purple-700 text-white rounded-lg">cos</button>
+            <button onclick="manejarFuncion('Math.tan')" class="btn-calculadora bg-purple-600 hover:bg-purple-700 text-white rounded-lg">tan</button>
+            <button onclick="manejarOperador('/')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">/</button>
+
+            <!-- Tercera Fila -->
+            <button onclick="manejarDigito('7')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">7</button>
+            <button onclick="manejarDigito('8')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">8</button>
+            <button onclick="manejarDigito('9')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">9</button>
+            <button onclick="manejarOperador('*')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">×</button>
+
+            <!-- Cuarta Fila -->
+            <button onclick="manejarDigito('4')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">4</button>
+            <button onclick="manejarDigito('5')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">5</button>
+            <button onclick="manejarDigito('6')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">6</button>
+            <button onclick="manejarOperador('-')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">-</button>
+
+            <!-- Quinta Fila -->
+            <button onclick="manejarDigito('1')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">1</button>
+            <button onclick="manejarDigito('2')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">2</button>
+            <button onclick="manejarDigito('3')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">3</button>
+            <button onclick="manejarOperador('+')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">+</button>
+
+            <!-- Sexta Fila -->
+            <button onclick="manejarDigito('0')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg col-span-2 btn-wide">0</button>
+            <button onclick="manejarDigito('.')" class="btn-calculadora bg-gray-600 hover:bg-gray-500 text-white rounded-lg">.</button>
+            <button onclick="manejarDigito('(')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">(</button>
+            <button onclick="manejarDigito(')')" class="btn-calculadora bg-blue-600 hover:bg-blue-700 text-white rounded-lg">)</button>
+
+            <!-- Botón Igual -->
+            <button onclick="manejarIgual()" class="btn-calculadora bg-green-600 hover:bg-green-700 text-white rounded-lg col-span-4 text-lg font-bold btn-wide">=</button>
+        </div>
+    </div>
+
+    <!-- Anuncio inferior AdSense -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="fluid"
+             data-ad-layout-key="-6t+ed+2i-1n-4w"
+             data-ad-client="ca-pub-7655863522500671"
+             data-ad-slot="0987654321"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <script>
+        // Variables globales
+        let pantalla = document.getElementById("pantalla");
+        let expresion = "";
+        let memoria = null;
+
+        // Función para actualizar la pantalla
+        function actualizarPantalla() {
+            pantalla.textContent = expresion || "0";
+            
+            // Autoajustar tamaño de fuente según longitud
+            if(expresion.length > 15) {
+                pantalla.style.fontSize = "1.25rem";
+            } else if(expresion.length > 10) {
+                pantalla.style.fontSize = "1.5rem";
+            } else {
+                pantalla.style.fontSize = "2rem";
+            }
+        }
+
+        // Función para manejar dígitos
+        function manejarDigito(valor) {
+            // Si es cero y no hay expresión, reemplazar
+            if(expresion === "0" && valor !== "." && valor !== "(" && valor !== ")") {
+                expresion = valor;
+            } else {
+                expresion += valor;
+            }
+            actualizarPantalla();
+        }
+
+        // Función para manejar operadores
+        function manejarOperador(operador) {
+            if (expresion !== "") {
+                // Reemplazar el último operador si existe
+                const ultimoCaracter = expresion.slice(-1);
+                if(["+", "-", "*", "/", "^"].includes(ultimoCaracter)) {
+                    expresion = expresion.slice(0, -1) + operador;
+                } else {
+                    expresion += operador;
+                }
+                actualizarPantalla();
+            }
+        }
+
+        // Función para operaciones matemáticas
+        function manejarFuncion(funcion) {
+            if (expresion !== "") {
+                try {
+                    // Convertir a radianes para funciones trigonométricas
+                    let valor = parseFloat(expresion);
+                    if(funcion.includes("sin") || funcion.includes("cos") || funcion.includes("tan")) {
+                        valor = valor * Math.PI / 180; // Conversión a radianes
+                    }
+                    
+                    expresion = String(eval(`${funcion}(${valor})`));
+                    actualizarPantalla();
+                } catch (error) {
+                    mostrarError();
+                }
+            }
+        }
+
+        // Botón de igual
+        function manejarIgual() {
+            try {
+                if(expresion === "") return;
+                
+                // Reemplazo de operadores para potenciar
+                let expresionEvaluable = expresion
+                    .replace(/\^/g, "**")
+                    .replace(/Math\./g, ""); // Para compatibilidad con funciones directas
+                
+                // Validar paréntesis balanceados
+                if(!parentesisBalanceados(expresionEvaluable)) {
+                    throw new Error("Paréntesis no balanceados");
+                }
+                
+                expresion = String(eval(expresionEvaluable));
+                actualizarPantalla();
+            } catch (error) {
+                mostrarError();
+            }
+        }
+
+        // Funciones auxiliares
+        function manejarLimpiar() {
+            expresion = "";
+            actualizarPantalla();
+        }
+
+        function manejarRetroceso() {
+            expresion = expresion.slice(0, -1);
+            actualizarPantalla();
+        }
+
+        function mostrarError() {
+            pantalla.textContent = "Error";
+            pantalla.style.color = "#ff6b6b";
+            expresion = "";
+            setTimeout(() => {
+                pantalla.textContent = "0";
+                pantalla.style.color = "white";
+            }, 1500);
+        }
+
+        function parentesisBalanceados(exp) {
+            let balance = 0;
+            for(let char of exp) {
+                if(char === '(') balance++;
+                if(char === ')') balance--;
+                if(balance < 0) return false;
+            }
+            return balance === 0;
+        }
+
+        // Iniciar pantalla
         actualizarPantalla();
-    } catch (error) {
-        pantalla.textContent = "Error";
-        expresion = "";
-    }
-}
-
-// Funciones auxiliares
-function manejarLimpiar() {
-    expresion = "";
-    actualizarPantalla();
-}
-
-function manejarRetroceso() {
-    expresion = expresion.slice(0, -1);
-    actualizarPantalla();
-}
-
-// Inicia la pantalla en 0
-actualizarPantalla();
-
-  </script>
+        
+        // Cargar anuncios después de que la página esté lista
+        document.addEventListener('DOMContentLoaded', function() {
+            // Forzar carga de anuncios si no se han cargado
+            setTimeout(() => {
+                if(typeof adsbygoogle !== 'undefined') {
+                    adsbygoogle.push({});
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
